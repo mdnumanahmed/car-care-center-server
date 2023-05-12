@@ -29,6 +29,7 @@ async function run() {
     await client.connect();
 
     const serviceCollection = client.db('carCareCenter').collection('services')
+    const bookingCollection = client.db('carCareCenter').collection('bookings')
 
 
     // services
@@ -50,7 +51,12 @@ async function run() {
       res.send(service)
     })
     
-
+    // Bookings API
+    app.post('/bookings', async(req, res) =>{
+      const booking = req.body;
+      const result = await bookingCollection.insertOne(booking)
+      res.send(result)
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
